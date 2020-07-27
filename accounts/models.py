@@ -33,6 +33,7 @@ class MinervaUser(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=254, blank=False)
     last_name = models.CharField(max_length=254, blank=False )
     photo = models.ImageField(upload_to='users/profile/photos', blank=True)
+    avatar = models.ImageField(upload_to='users/profile/avatars', blank=True)
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
