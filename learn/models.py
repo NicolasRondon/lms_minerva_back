@@ -18,7 +18,7 @@ class Lesson(models.Model):
     body = models.TextField()
     date_created = models.DateTimeField(auto_now=True)
     slug = models.SlugField(allow_unicode=True)
-    chapters = models.ForeignKey(Chapter, related_name='chapters')
+    chapters = models.ForeignKey(Chapter, related_name='chapters', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
@@ -29,7 +29,7 @@ class Course(models.Model):
     body = models.TextField()
     date_created = models.DateTimeField(auto_now=True)
     slug = models.SlugField(allow_unicode=True)
-    lessons = models.ForeignKey(Lesson, related_name='lessons')
+    lessons = models.ForeignKey(Lesson, related_name='lessons', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
