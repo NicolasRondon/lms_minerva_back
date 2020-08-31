@@ -4,6 +4,13 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 import uuid
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.mail import send_mail
+import random
+from core.utils.twilio import  send_sms
+
+
 # Create your models here.
 class MinervaUserManager(BaseUserManager):
     def create_user(self, email, password, **kwargs):
@@ -26,20 +33,20 @@ class MinervaUserManager(BaseUserManager):
 
 
 class MinervaUser(AbstractBaseUser, PermissionsMixin):
+
     """
     Usuario Custom para Minerva LMS
     """
     email = models.EmailField(max_length=254, blank=False, unique=True)
     first_name = models.CharField(max_length=254, blank=False)
     last_name = models.CharField(max_length=254, blank=False )
-    photo = models.ImageField(upload_to='users/profile/photos', blank=True)
     avatar = models.ImageField(upload_to='users/profile/avatars', blank=True)
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
     date_joined = models.DateTimeField(default=timezone.now)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    
+
 
     institutional_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
@@ -55,3 +62,20 @@ class MinervaUser(AbstractBaseUser, PermissionsMixin):
 
     def get_email(self):
         return self.email
+
+class CodeConfirmation(models.Model):
+    user = models.CharField(blank=False, max_length=800)
+    code = models.CharField(blank=False, max_length=4)
+
+@receiver(post_save, sender=MinervaUser)
+def send_email_user_created(sender, instance, created, **kwargs):
+    if created:
+        user_uuid = instance.institutional_id
+        code = CodeConfirmation
+        number = format(random.randint(0000,9999), '04d')
+        code.objects.create(
+            user = user_uuid,
+            code = number
+        )
+
+        send_sms(name=instance.first_name, code=number)

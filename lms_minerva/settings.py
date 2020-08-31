@@ -23,9 +23,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '6@kn53d&dhud@97@w7^*o%m1620%-bf0l9+5%b0q6l^iy59pg$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+api_mailgun = os.environ['API_MAILGUN']
+account_twilio = os.environ['ACCOUNT_TWILIO']
+token_twilio = os.environ['TOKEN_TWILIO']
+
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -77,13 +81,24 @@ WSGI_APPLICATION = 'lms_minerva.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
     }
-}
+
+
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST_USER = "postmaster@mg.motosander.com"
+DEFAULT_FROM_EMAIL = 'postmaster@mg.motosander.com'
+EMAIL_HOST_PASSWORD = api_mailgun
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 
 # Password validation
@@ -124,7 +139,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 REST_FRAMEWORK = {
-  
+
   'DEFAULT_AUTHENTICATION_CLASSES': [
 
     'rest_framework.authentication.SessionAuthentication',

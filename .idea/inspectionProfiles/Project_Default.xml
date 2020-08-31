@@ -4,7 +4,7 @@
     <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="ignoredPackages">
         <value>
-          <list size="112">
+          <list size="120">
             <item index="0" class="java.lang.String" itemvalue="django-rest-auth" />
             <item index="1" class="java.lang.String" itemvalue="defusedxml" />
             <item index="2" class="java.lang.String" itemvalue="httplib2" />
@@ -117,6 +117,14 @@
             <item index="109" class="java.lang.String" itemvalue="CacheControl" />
             <item index="110" class="java.lang.String" itemvalue="requests" />
             <item index="111" class="java.lang.String" itemvalue="dialogflow" />
+            <item index="112" class="java.lang.String" itemvalue="uritemplate" />
+            <item index="113" class="java.lang.String" itemvalue="pkcs7" />
+            <item index="114" class="java.lang.String" itemvalue="tweepy" />
+            <item index="115" class="java.lang.String" itemvalue="firebase-admin" />
+            <item index="116" class="java.lang.String" itemvalue="FormEncode" />
+            <item index="117" class="java.lang.String" itemvalue="djangorestframework-expiring-authtoken" />
+            <item index="118" class="java.lang.String" itemvalue="google-auth-httplib2" />
+            <item index="119" class="java.lang.String" itemvalue="msgpack" />
           </list>
         </value>
       </option>
